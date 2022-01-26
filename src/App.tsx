@@ -1,24 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Rate from "./sections/rate/Rate";
+import Results from "./sections/results/Results";
+
+import "./App.css";
+import { useState } from "react";
+import { useRequestRate } from "./hooks/useRequestRate";
 
 function App() {
+  const [fromCur, setFromCur] = useState("");
+  const [amount, setAmount] = useState("");
+  const [toCur, setToCur] = useState("");
+
+  const requestData = { fromCur, amount, toCur };
+
+  const { isLoading, response } = useRequestRate(requestData);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Rate
+        setBaseCur={setFromCur}
+        amount={amount}
+        setAmount={setAmount}
+        setToCur={setToCur}
+      />
+      {!isLoading ? (
+        response && <Results response={response} />
+      ) : (
+        <p>...Loading</p>
+      )}
     </div>
   );
 }
