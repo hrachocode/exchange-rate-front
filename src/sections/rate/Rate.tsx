@@ -27,7 +27,7 @@ export default function Rate({
       <Input
         placeholder="quote"
         value={amount}
-        onChange={(e) => setAmount(e.target.value)}
+        onChange={(e) => !isNaN(+e.target.value) && setAmount(e.target.value)}
       />
       <Select
         defaultOptionValue="to currency"
